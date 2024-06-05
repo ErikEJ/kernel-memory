@@ -27,6 +27,14 @@ internal static class FunctionResultExtensions
             {
                 resultText = resultText.Substring(index + label.Length + 1).Trim();
             }
+
+            // Remove non-SQL lines
+            if (resultText.Contains("```\n", StringComparison.OrdinalIgnoreCase)
+                && resultText.Contains("```sql", StringComparison.OrdinalIgnoreCase))
+            {
+                resultText = resultText.Substring(resultText.IndexOf("```sql", StringComparison.Ordinal) + 6).Trim();
+                resultText = resultText.Substring(0, resultText.LastIndexOf("```", StringComparison.Ordinal)).Trim();
+            }
         }
 
         return resultText;
